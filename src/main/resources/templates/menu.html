@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/voteDo}" method="post" th:unless="${hidden}">
+    <button type="submit">投票画面へ</button>
+</form>
+<form th:action="@{/result}" method="post" th:unless="${hidden}">
+    <button type="submit">結果画面へ</button>
+</form>
+<div th:text="${message}"></div>
+<form method="post" th:action="@{/logout}">
+    <input type="submit" value="logout">
+</form>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>投票画面</title>
+</head>
+<body>
+<form th:action="@{/tohyo}" th:object="${form}" method="post">
+    <h3>新人</h3>
+    <div th:each="shain : ${shinjinList}">
+        <input type="checkbox" th:value="${shain.userId}" th:text="${shain.userName}" th:field="*{shinjinId}">
+    </div>
+    <div th:if="${#fields.hasErrors('shinjinId')}" th:errors="*{shinjin}" class="help-block">error</div>
+    <input type="text" name="shinjinComment" th:field="*{shinjinComment}">
+    <div th:if="${#fields.hasErrors('shinjinComment')}" th:errors="*{shinjinComment}" class="help-block">error</div>
+    <input type="text" name="shinjinComment" th:field="*{shinjinComment}">
+    <div th:if="${#fields.hasErrors('shinjinComment')}" th:errors="*{shinjinComment}" class="help-block">error</div>
+
+    <h3>2年目</h3>
+    <div th:each="shain : ${ninenmeList}">
+        <input type="checkbox" th:value="${shain.userId}" th:text="${shain.userName}" th:field="*{ninenmeId}">
+    </div>
+    <div th:if="${#fields.hasErrors('ninenmeId')}" th:errors="*{ninenme}" class="help-block">error</div>
+    <input type="text" name="ninenmeComment" th:field="*{ninenmeComment}">
+    <div th:if="${#fields.hasErrors('ninenmeComment')}" th:errors="*{ninenmeComment}" class="help-block">error</div>
+    <input type="text" name="ninenmeComment" th:field="*{ninenmeComment}">
+    <div th:if="${#fields.hasErrors('ninenmeComment')}" th:errors="*{ninenmeComment}" class="help-block">error</div>
+    <button type="submit">投票する</button>
+</form>
+</body>
+</html>
