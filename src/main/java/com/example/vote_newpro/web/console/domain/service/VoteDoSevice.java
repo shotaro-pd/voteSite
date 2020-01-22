@@ -3,13 +3,15 @@ package com.example.vote_newpro.web.console.domain.service;
 import com.example.vote_newpro.web.console.controller.form.ValidForm;
 import com.example.vote_newpro.web.console.domain.dao.TableUserDao;
 import com.example.vote_newpro.web.console.domain.dao.VoteResultDao;
+import com.example.vote_newpro.web.console.domain.entity.UserCommentEntity;
+import com.example.vote_newpro.web.console.domain.entity.UserResultEntity;
 import com.example.vote_newpro.web.console.domain.entity.TableUserEntity;
 import com.example.vote_newpro.web.console.domain.entity.VoteResultEntity;
-import com.example.vote_newpro.web.console.dto.NenbetsDto;
+import com.example.vote_newpro.web.console.dto.NenbetsUserDto;
+import com.example.vote_newpro.web.console.dto.NenbetsUserResultDto;
+import com.example.vote_newpro.web.console.dto.UserResultDto;
 import com.example.vote_newpro.web.console.framework.auth.LoginUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class VoteDoSevice {
     @Autowired
     private VoteResultDao voteResultDao;
 
-    public NenbetsDto showHappyoshaForm(String userId){
+    public NenbetsUserDto showHappyoshaForm(String userId){
 
         List<TableUserEntity> entityList = tableUserDao.selectHappyoSha(userId,Collectors.toList());
 
@@ -43,7 +45,7 @@ public class VoteDoSevice {
                     break;
             }
         }
-        return new NenbetsDto(shinjin,ninenme);
+        return new NenbetsUserDto(shinjin,ninenme);
     }
 
     public void insertTohyo(ValidForm form, LoginUserDetails userDetails){
@@ -57,4 +59,59 @@ public class VoteDoSevice {
         voteResultDao.insert(voteResultEntities);
     }
 
+
+    public NenbetsUserResultDto result(){
+        List<UserResultEntity> userResultEntityList = voteResultDao.findUserAndCount(Collectors.toList());
+        NenbetsUserResultDto nenbetsUserResultDto = new NenbetsUserResultDto(
+                new ArrayList<>(),
+                new ArrayList<>()
+        );
+        for (UserResultEntity userResultEntity : userResultEntityList) {
+            switch (userResultEntity.getNyushaNensu()){
+                case 1:
+                    nenbetsUserResultDto.getShinjin().add(
+                            new UserResultDto(
+                                    userResultEntity.getHappyoShaNo(),
+                                    userResultEntity.getUserName(),
+                                    userResultEntity.getTohyosu(),
+                                    userResultEntity.getNyushaNensu(),
+                                    1
+                            )
+                    );
+                    break;
+                case 2:
+                    nenbetsUserResultDto.getNinenme().add(
+                            new UserResultDto(
+                                    userResultEntity.getHappyoShaNo(),
+                                    userResultEntity.getUserName(),
+                                    userResultEntity.getTohyosu(),
+                                    userResultEntity.getNyushaNensu(),
+                                    1
+                            )
+                    );
+                    break;
+                default:
+                    break;
+            }
+        }
+        for(UserResultDto shinjin1:nenbetsUserResultDto.getShinjin()){
+            for(UserResultDto shinjin2:nenbetsUserResultDto.getShinjin()){
+                if (shinjin1.getTohyosu()<shinjin2.getTohyosu()){
+                    shinjin1.setJuni(shinjin1.getJuni()+1);
+                }
+            }
+        }
+        for(UserResultDto ninenme1:nenbetsUserResultDto.getNinenme()){
+            for(UserResultDto ninenme2:nenbetsUserResultDto.getNinenme()){
+                if (ninenme1.getTohyosu()<ninenme2.getTohyosu()){
+                    ninenme1.setJuni(ninenme2.getJuni()+1);
+                }
+            }
+        }
+        return nenbetsUserResultDto;
+    }
+
+    public List<UserCommentEntity> showDetails(String happyoShaNo){
+        return voteResultDao.findUserComment(happyoShaNo,Collectors.toList());
+    }
 }

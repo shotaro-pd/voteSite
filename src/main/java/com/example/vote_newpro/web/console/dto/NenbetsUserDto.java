@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class NenbetsDto {
+public class NenbetsUserDto {
     List<TableUserEntity> shinjin;
     List<TableUserEntity> ninenme;
 }

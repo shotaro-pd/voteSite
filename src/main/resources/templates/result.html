@@ -5,6 +5,22 @@
     <title>Title</title>
 </head>
 <body>
-    
+    <div>
+        <table>
+            <tr th:each="shain : ${shinjinResultList}">
+                <td th:text="${shain.juni}"></td>
+                <td><a th:href="@{/details(userId=${shain.happyoShaNo})}" th:text="${shain.userName}"></a></td>
+            </tr>
+        </table>
+        <table>
+            <tr th:each="shain : ${ninenmeResultList}">
+                <td th:text="${shain.juni}"></td>
+                <td><a th:href="@{/details(userId=${shain.happyoShaNo})}" th:text="${shain.userName}"></a></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+
+    </div>
 </body>
 </html>

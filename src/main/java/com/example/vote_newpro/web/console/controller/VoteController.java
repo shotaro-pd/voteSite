@@ -1,7 +1,6 @@
 package com.example.vote_newpro.web.console.controller;
 
 import com.example.vote_newpro.web.console.controller.form.ValidForm;
-import com.example.vote_newpro.web.console.domain.entity.VoteResultEntity;
 import com.example.vote_newpro.web.console.domain.service.VoteDoSevice;
 import com.example.vote_newpro.web.console.framework.auth.LoginUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class VoteController {
@@ -27,14 +25,13 @@ public class VoteController {
         return new ValidForm();
     }
 
-
     @RequestMapping("/menu")
-    private String menuOpen(){
+    public String menuOpen(){
         return "menu";
     }
 
     @RequestMapping("/voteDo")
-    private String voteDo(Model model, @AuthenticationPrincipal LoginUserDetails userDetails,ValidForm form){
+    public String voteDo(Model model, @AuthenticationPrincipal LoginUserDetails userDetails,ValidForm form){
         model.addAttribute("shinjinList",voteDoSevice.showHappyoshaForm(userDetails.getUserId()).getShinjin());
         model.addAttribute("ninenmeList",voteDoSevice.showHappyoshaForm(userDetails.getUserId()).getNinenme());
         model.addAttribute("form",form);
@@ -42,7 +39,7 @@ public class VoteController {
     }
 
     @RequestMapping("/tohyo")
-    private String tohyo(Model model,@Validated  ValidForm validForm, BindingResult result,@AuthenticationPrincipal LoginUserDetails userDetails){
+    public String tohyo(Model model,@Validated  ValidForm validForm, BindingResult result,@AuthenticationPrincipal LoginUserDetails userDetails){
         if(result.hasErrors()){
             return "redirect:/voteDo";
         }
@@ -51,4 +48,18 @@ public class VoteController {
         model.addAttribute("message","登録が完了しました");
         return "redirect:/menu";
     }
+
+    @RequestMapping("/result")
+    public String resultView(Model model){
+        model.addAttribute("shinjinResultList",voteDoSevice.result().getShinjin());
+        model.addAttribute("ninenmeResultList",voteDoSevice.result().getNinenme());
+        return "result";
+    }
+
+    @GetMapping("/details")
+    public String detailView(Model model,@RequestParam("userId") String userId){
+        model.addAttribute("details",voteDoSevice.showDetails(userId));
+        return "details";
+    }
+
 }
