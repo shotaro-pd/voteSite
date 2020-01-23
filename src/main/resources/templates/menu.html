@@ -2,19 +2,33 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>メニュー画面</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="initial-scale=1">
 </head>
 <body>
+<div class="container">
+    <div class="mx-auto">
+        <div class="card border-info mb-3" style="width:20rem;margin:auto">
+            <div class="card-header">メニュー画面</div>
+            <div class="card-body">
+                <form th:action="@{/voteDo}" method="post">
+                    <button type="submit" class="btn btn-primary mb-2">投票画面へ</button>
+                </form>
+                <form th:action="@{/result}" method="get">
+                    <button type="submit" class="btn btn-primary mb-2 ">結果画面へ</button>
+                </form>
+                <form method="post" th:action="@{/logout}">
+                    <button type="submit" class="btn btn-primary mb-2 ">ログアウト</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<form th:action="@{/voteDo}" method="post" th:unless="${hidden}">
-    <button type="submit">投票画面へ</button>
-</form>
-<form th:action="@{/result}" method="post" th:unless="${hidden}">
-    <button type="submit">結果画面へ</button>
-</form>
-<div th:text="${message}"></div>
-<form method="post" th:action="@{/logout}">
-    <input type="submit" value="logout">
-</form>
+
 </body>
 </html>
