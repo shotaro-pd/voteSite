@@ -1,6 +1,7 @@
 package com.example.vote_newpro.web.console.controller;
 
 import com.example.vote_newpro.web.console.controller.form.ValidForm;
+import com.example.vote_newpro.web.console.domain.entity.VoteResultEntity;
 import com.example.vote_newpro.web.console.domain.service.VoteDoSevice;
 import com.example.vote_newpro.web.console.framework.auth.LoginUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class VoteController {
 
@@ -26,12 +29,17 @@ public class VoteController {
     }
 
     @RequestMapping("/menu")
-    public String menuOpen(){
+    public String menuOpen(Model model,@AuthenticationPrincipal LoginUserDetails userDetails){
+        model.addAttribute("num",voteDoSevice.checkTohyo(userDetails.getUserId()).size());
         return "menu";
     }
 
     @RequestMapping("/voteDo")
     public String voteDo(Model model, @AuthenticationPrincipal LoginUserDetails userDetails,ValidForm form){
+        List<VoteResultEntity> voteResultEntityList = voteDoSevice.checkTohyo(userDetails.getUserId());
+        if (!(voteResultEntityList.isEmpty())){
+            return "redirect:/menu";
+        }
         model.addAttribute("shinjinList",voteDoSevice.showHappyoshaForm(userDetails.getUserId()).getShinjin());
         model.addAttribute("ninenmeList",voteDoSevice.showHappyoshaForm(userDetails.getUserId()).getNinenme());
         model.addAttribute("form",form);

@@ -114,4 +114,8 @@ public class VoteDoSevice {
     public List<UserCommentEntity> showDetails(String happyoShaNo){
         return voteResultDao.findUserComment(happyoShaNo,Collectors.toList());
     }
+
+    public List<VoteResultEntity> checkTohyo(String userId){
+        return voteResultDao.findTohyoUser(userId,Collectors.toList());
+    }
 }

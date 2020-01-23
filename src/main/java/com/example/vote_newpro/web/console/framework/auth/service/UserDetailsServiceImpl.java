@@ -19,8 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private TableUserDao loginUserDao;
 
-
-
     @Override
     public LoginUserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         TableUserEntity loginUserEntity = loginUserDao.selectAll(userName)

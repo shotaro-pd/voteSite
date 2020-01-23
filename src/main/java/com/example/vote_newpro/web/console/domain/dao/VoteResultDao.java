@@ -24,4 +24,7 @@ public interface VoteResultDao {
 
     @Select(strategy = SelectType.COLLECT)
     <R> R findUserComment(String happyoShaNo,Collector<UserCommentEntity, ?, R> collector);
+
+    @Select(strategy = SelectType.COLLECT)
+    <R> R findTohyoUser(String userId,Collector<VoteResultEntity, ?, R> collector);
 }

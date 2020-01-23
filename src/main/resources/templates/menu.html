@@ -13,7 +13,7 @@
             <div class="card-header">メニュー画面</div>
             <div class="card-body">
                 <form th:action="@{/voteDo}" method="post">
-                    <button type="submit" class="btn btn-primary mb-2">投票画面へ</button>
+                    <button type="submit" class="btn btn-primary mb-2" th:unless="${num}">投票画面へ</button>
                 </form>
                 <form th:action="@{/result}" method="get">
                     <button type="submit" class="btn btn-primary mb-2 ">結果画面へ</button>
