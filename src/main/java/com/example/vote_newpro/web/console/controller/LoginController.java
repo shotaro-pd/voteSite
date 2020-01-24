@@ -12,6 +12,6 @@ public class LoginController {
     @PostMapping("/loginok")
     public String loginsuccess(Model model){
         model.addAttribute("msg","loginSuccess");
-        return "redirect:/menu";
+        return "redirect:/result";
     }
 }

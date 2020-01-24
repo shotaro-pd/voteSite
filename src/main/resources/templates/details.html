@@ -2,19 +2,21 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>コメント画面</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/center.css">
+    <meta name="viewport" content="initial-scale=1">
 </head>
 <body>
-    <div>
-        <table>
-            <tr th:each="detail : ${details}">
-                <td th:text="${detail.userName}"></td>
-                <td th:text="${detail.comment}"></td>
-            </tr>
-        </table>
+<div class="container">
+    <div class="row">
+            <div class="col-lg-4" th:each="detail : ${details}">
+                <div class="card border-info mb-3">
+                    <div class="card-header" th:text="${detail.userName}+さんからのコメント"></div>
+                    <div class="card-body" th:text="${detail.comment}"></div>
+                </div>
+            </div>
     </div>
-    <div>
-
-    </div>
+</div>
 </body>
 </html>

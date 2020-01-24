@@ -54,13 +54,14 @@ public class VoteController {
         voteDoSevice.insertTohyo(validForm,userDetails);
         model.addAttribute("hidden","true");
         model.addAttribute("message","登録が完了しました");
-        return "redirect:/menu";
+        return "redirect:/result";
     }
 
     @RequestMapping("/result")
-    public String resultView(Model model){
+    public String resultView(Model model,@AuthenticationPrincipal LoginUserDetails userDetails){
         model.addAttribute("shinjinResultList",voteDoSevice.result().getShinjin());
         model.addAttribute("ninenmeResultList",voteDoSevice.result().getNinenme());
+        model.addAttribute("num",voteDoSevice.checkTohyo(userDetails.getUserId()).size());
         return "result";
     }
 

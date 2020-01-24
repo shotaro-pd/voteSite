@@ -9,7 +9,7 @@ import org.seasar.doma.jdbc.entity.NamingType;
 @Table
 @Value
 public class UserResultEntity {
-    private String happyoShaNo;
+    private String userId;
     private String userName;
     private int tohyosu;
     private int nyushaNensu;

@@ -30,22 +30,22 @@ public class VoteDoSevice {
 
         List<TableUserEntity> entityList = tableUserDao.selectHappyoSha(userId,Collectors.toList());
 
-        List<TableUserEntity> shinjin = new ArrayList<>();
-        List<TableUserEntity> ninenme = new ArrayList<>();
+        List<TableUserEntity> shinjinList = new ArrayList<>();
+        List<TableUserEntity> ninenmeList = new ArrayList<>();
 
         for (TableUserEntity tableUserEntity : entityList) {
             switch (tableUserEntity.getNyushaNensu()){
                 case 1:
-                    shinjin.add(tableUserEntity);
+                    shinjinList.add(tableUserEntity);
                     break;
                 case 2:
-                    ninenme.add(tableUserEntity);
+                    ninenmeList.add(tableUserEntity);
                     break;
                 default:
                     break;
             }
         }
-        return new NenbetsUserDto(shinjin,ninenme);
+        return new NenbetsUserDto(shinjinList,ninenmeList);
     }
 
     public void insertTohyo(ValidForm form, LoginUserDetails userDetails){
@@ -62,16 +62,14 @@ public class VoteDoSevice {
 
     public NenbetsUserResultDto result(){
         List<UserResultEntity> userResultEntityList = voteResultDao.findUserAndCount(Collectors.toList());
-        NenbetsUserResultDto nenbetsUserResultDto = new NenbetsUserResultDto(
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
+        List<UserResultDto> shinjinList = new ArrayList<>();
+        List<UserResultDto> ninenmeList = new ArrayList<>();
         for (UserResultEntity userResultEntity : userResultEntityList) {
             switch (userResultEntity.getNyushaNensu()){
                 case 1:
-                    nenbetsUserResultDto.getShinjin().add(
-                            new UserResultDto(
-                                    userResultEntity.getHappyoShaNo(),
+                    shinjinList.add(
+                                    new UserResultDto(
+                                    userResultEntity.getUserId(),
                                     userResultEntity.getUserName(),
                                     userResultEntity.getTohyosu(),
                                     userResultEntity.getNyushaNensu(),
@@ -80,9 +78,9 @@ public class VoteDoSevice {
                     );
                     break;
                 case 2:
-                    nenbetsUserResultDto.getNinenme().add(
+                    ninenmeList.add(
                             new UserResultDto(
-                                    userResultEntity.getHappyoShaNo(),
+                                    userResultEntity.getUserId(),
                                     userResultEntity.getUserName(),
                                     userResultEntity.getTohyosu(),
                                     userResultEntity.getNyushaNensu(),
@@ -94,21 +92,21 @@ public class VoteDoSevice {
                     break;
             }
         }
-        for(UserResultDto shinjin1:nenbetsUserResultDto.getShinjin()){
-            for(UserResultDto shinjin2:nenbetsUserResultDto.getShinjin()){
+        for(UserResultDto shinjin1:shinjinList){
+            for(UserResultDto shinjin2:shinjinList){
                 if (shinjin1.getTohyosu()<shinjin2.getTohyosu()){
                     shinjin1.setJuni(shinjin1.getJuni()+1);
                 }
             }
         }
-        for(UserResultDto ninenme1:nenbetsUserResultDto.getNinenme()){
-            for(UserResultDto ninenme2:nenbetsUserResultDto.getNinenme()){
+        for(UserResultDto ninenme1:ninenmeList){
+            for(UserResultDto ninenme2:ninenmeList){
                 if (ninenme1.getTohyosu()<ninenme2.getTohyosu()){
-                    ninenme1.setJuni(ninenme2.getJuni()+1);
+                    ninenme1.setJuni(ninenme1.getJuni()+1);
                 }
             }
         }
-        return nenbetsUserResultDto;
+        return new NenbetsUserResultDto(shinjinList,ninenmeList);
     }
 
     public List<UserCommentEntity> showDetails(String happyoShaNo){

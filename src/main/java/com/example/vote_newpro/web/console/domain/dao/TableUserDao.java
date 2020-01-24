@@ -17,4 +17,7 @@ public interface TableUserDao {
 
     @Select(strategy = SelectType.COLLECT)
     <R> R selectHappyoSha(String userId,Collector<TableUserEntity, ?, R> collector);
+
+    @Select(strategy = SelectType.COLLECT)
+    <R> R selectHappyoShaAll(Collector<TableUserEntity, ?, R> collector);
 }
