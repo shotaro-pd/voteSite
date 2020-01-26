@@ -6,71 +6,95 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/center.css">
     <meta name="viewport" content="initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/checkName.js"></script>
+    <script>
+        var Submit = false;
+
+        function checkDoubleClick() {
+            if (Submit) { // 2回目以降のクリック時
+                alert("連続で押さないでください！！");
+                return false;
+            } else { // 1回目のクリック時
+                Submit = true;
+                return true;
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <form th:action="@{/tohyo}" th:object="${form}" method="post">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="card border-info mb-3">
-                        <div class="card-header">新人</div>
-                        <div class="card-body">
-                            <div th:each="shain : ${shinjinList}">
-                                <div class="checkbox">
+<div class="container">
+    <h3>投票</h3>
+    <p>投票する人を2人選んで、</p>
+    <p>コメントを書いてください</p>
+    <form th:action="@{/tohyo}" th:object="${form}" method="post" onsubmit="return checkDoubleClick();">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card border-info mb-3">
+                    <div class="card-header">新人</div>
+                    <div class="card-body">
+                        <div th:each="shain : ${shinjinList}">
+                            <div class="checkbox">
+                                <label>
                                     <input type="checkbox" th:value="${shain.userId}"
+                                           class="shinjinId"
                                            th:text="${shain.userName}"
                                            th:field="*{shinjinId}">
-                                </div>
-                            </div>
-                            <div id="shinjinName1"></div>
-                            <div class="form-group">
-                                <textarea name="shinjinComment" class="form-control" cols="25" rows="5"
-                                          th:field="*{shinjinComment}"></textarea>
-                            </div>
-                            <div id="shinjinName2"></div>
-                            <div class="form-group">
-                                <textarea name="shinjinComment" class="form-control" cols="25" rows="5"
-                                          th:field="*{shinjinComment}"></textarea>
+                                </label>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card border-info mb-3">
-                        <div class="card-header">2年目</div>
-                        <div class="card-body">
-                            <div th:each="shain : ${ninenmeList}">
-                                <div class="checkbox">
-                                    <input type="checkbox" th:value="${shain.userId}"
-                                           th:text="${shain.userName}"
-                                           th:field="*{ninenmeId}">
-                                </div>
-                            </div>
-                            <div id="ninenmeName1"></div>
-                            <div class="form-group">
-                                <textarea name="ninenmeComment" class="form-control" cols="25" rows="5"
-                                          th:field="*{ninenmeComment}"></textarea>
-                            </div>
-                            <div id="ninenmeName2"></div>
-                            <div class="form-group">
-                                <textarea name="ninenmeComment" class="form-control" cols="25" rows="5"
-                                          th:field="*{ninenmeComment}"></textarea>
-                            </div>
+                        <div id="shinjinName1"></div>
+                        <div class="form-group">
+                                <textarea name="shinjinComment" class="form-control" cols="25" rows="5"
+                                          th:field="*{shinjinComment}"></textarea>
+                        </div>
+                        <div id="shinjinName2"></div>
+                        <div class="form-group">
+                                <textarea name="shinjinComment" class="form-control" cols="25" rows="5"
+                                          th:field="*{shinjinComment}"></textarea>
                         </div>
                     </div>
-
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="card border-info mb-3">
+                    <div class="card-header">2年目</div>
+                    <div class="card-body">
+                        <div th:each="shain : ${ninenmeList}">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" th:value="${shain.userId}"
+                                           class="ninenmeId"
+                                           th:text="${shain.userName}"
+                                           th:field="*{ninenmeId}">
+                                </label>
+                            </div>
+                        </div>
+                        <div id="ninenmeName1"></div>
+                        <div class="form-group">
+                                <textarea name="ninenmeComment" class="form-control" cols="25" rows="5"
+                                          th:field="*{ninenmeComment}"></textarea>
+                        </div>
+                        <div id="ninenmeName2"></div>
+                        <div class="form-group">
+                                <textarea name="ninenmeComment" class="form-control" cols="25" rows="5"
+                                          th:field="*{ninenmeComment}"></textarea>
+                        </div>
+                    </div>
+                </div>
 
-            <button type="submit" class="btn btn-primary mb-2">投票する</button>
+            </div>
+        </div>
 
-        </form>
-        <form th:action="@{/result}" method="get">
-            <button type="submit" class="btn btn-primary mb-2 ">結果画面へ</button>
-        </form>
-        <form method="post" th:action="@{/logout}">
-            <button type="submit" class="btn btn-primary mb-2 ">ログアウト</button>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-primary mb-2">投票する</button>
+
+    </form>
+    <form th:action="@{/result}" method="get">
+        <button type="submit" class="btn btn-primary mb-2 ">結果画面へ</button>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

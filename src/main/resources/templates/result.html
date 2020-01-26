@@ -6,10 +6,28 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/center.css">
     <meta name="viewport" content="initial-scale=1">
+    <script>
+        var Submit = false;
+        function checkDoubleClick() {
+            if (Submit) { // 2回目以降のクリック時
+                alert("連続で押さないでください！！");
+                return false;
+            } else { // 1回目のクリック時
+                Submit = true;
+                return true;
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container">
-    <h3>投票</h3>
+    <header>
+        <form method="post" th:action="@{/logout}">
+            <button type="submit" class="btn btn-primary mb-2 ">ログアウト</button>
+        </form>
+    </header>
+    <h3>投票結果</h3>
+    <div th:text="${message}" style="color:red"></div>
     <div class="row">
         <div class="col-lg-6">
             <div class="card border-info mb-3">
@@ -52,12 +70,10 @@
             </div>
         </div>
     </div>
-    <form th:action="@{/voteDo}" method="get">
+    <form th:action="@{/voteDo}" method="get" onsubmit="return checkDoubleClick();">
         <button type="submit" class="btn btn-primary mb-2" th:unless="${num}">投票画面へ</button>
     </form>
-    <form method="post" th:action="@{/logout}">
-        <button type="submit" class="btn btn-primary mb-2 ">ログアウト</button>
-    </form>
+
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

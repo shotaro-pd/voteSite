@@ -6,10 +6,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <meta name="viewport" content="initial-scale=1">
-
+    <script>
+        var Submit = false;
+        function checkDoubleClick(){
+            if(Submit){ // 2回目以降のクリック時
+                alert("連続で押さないでください！！");
+                return false;
+            }else{ // 1回目のクリック時
+                Submit= true;
+                return true;
+            }
+        }
+    </script>
 </head>
 <body class="text-center">
-<form th:action="@{/sign_in}" method="post" class="form-signin">
+<form th:action="@{/sign_in}" method="post" class="form-signin" onsubmit="return checkDoubleClick();">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <div class="form-group">
         <label for="text">ユーザID</label>
@@ -19,7 +30,7 @@
         <label for="password">パスワード</label>
         <input type="password" name="password" id="password" class="form-control">
     </div>
-    <button type="submit" class="btn btn-lg btn-primary btn-block">ログイン</button>
+    <button type="submit" class="btn btn-lg btn-primary btn-block" >ログイン</button>
     <p class="mt-5 mb-3 text-muted">●新プロダクト開発室●</p>
 </form>
 
